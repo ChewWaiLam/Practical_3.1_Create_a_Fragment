@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import com.roes.navigationdemo.databinding.FragmentQuestionBinding
 
@@ -33,12 +34,13 @@ class QuestionFragment : Fragment() {
             text = "What is FMCO?",
             answers = listOf(
                 "Full Movement Control Oder",
-
                 "Fun Movement Control Oder",
                 "Forever Movement Control Oder"
             )
         )
     )
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +54,7 @@ class QuestionFragment : Fragment() {
 
             val checkedId = binding.radioGroup.checkedRadioButtonId
 
+
             if (checkedId != -1) {
                 var answerIndex = 0
                 when (checkedId) {
@@ -61,6 +64,7 @@ class QuestionFragment : Fragment() {
                 }
                 if (answers[answerIndex] == currentQuestion.answers[0]) {
                     score += 1
+
                 }
                 if (questionIndex < 1) {
                     questionIndex += 1
@@ -68,8 +72,11 @@ class QuestionFragment : Fragment() {
                     setQuestion()
 
                 } else {
-                    // todo:: navigate to thankyou fragment
-                    Navigation.findNavController(it).navigate(R.id.action_questionFragment_to_thankYouFragment)
+
+                    val percentage : Float = (score / questions.size.toFloat()) * 100
+                    val action :NavDirections = QuestionFragmentDirections.actionQuestionFragmentToThankYouFragment(percentage)
+                    Navigation.findNavController(it).navigate(action)
+                    //Navigation.findNavController(it).navigate(R.id.action_questionFragment_to_thankYouFragment)
 
                 }
             } else {
@@ -85,7 +92,7 @@ class QuestionFragment : Fragment() {
         currentQuestion = questions[questionIndex]
         answers = currentQuestion.answers.toMutableList()
 
-        //answers.shuffle()
+        answers.shuffle()
 
         binding.tvQuestion.text = currentQuestion.text
         binding.optionA.text = answers[0]

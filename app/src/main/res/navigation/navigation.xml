@@ -31,5 +31,9 @@
         android:id="@+id/thankYouFragment"
         android:name="com.roes.navigationdemo.ThankYouFragment"
         android:label="fragment_thank_you"
-        tools:layout="@layout/fragment_thank_you" />
+        tools:layout="@layout/fragment_thank_you" >
+        <argument
+            android:name="TotalScore"
+            app:argType="float" />
+    </fragment>
 </navigation>
